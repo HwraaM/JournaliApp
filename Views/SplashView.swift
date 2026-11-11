@@ -1,33 +1,33 @@
 import SwiftUI
 
 struct SplashView: View {
+    var appName: String? = "Journali"
+    var tagline: String? = "Your thoughts, your story"
+
     var body: some View {
-        ZStack {
-            // الخلفية بتدرج الألوان الجديد والدقيق
-            LinearGradient(
-                colors: [.black, Color(red: 0.08, green: 0.08, blue: 0.09)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            
-            VStack(spacing: 24) {
-                // أيقونة الدفتر الخاصة بكِ
-                Image("SplashLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
+        if let currentName = appName, let currentTagline = tagline {
+            ZStack {
+                Color.black
+                    .ignoresSafeArea()
                 
-                // اسم التطبيق
-                Text("Journali")
-                    .font(.system(size: 44, weight: .bold))
-                    .foregroundColor(.white)
-                
-                // السلوغن
-                Text("Your thoughts, your story")
-                    .font(.system(size: 16, weight: .regular))
-                    .foregroundColor(.gray)
+                VStack(spacing: 16) {
+                    Image("SplashLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                    
+                    Text(currentName)
+                        .font(.system(size: 42, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    Text(currentTagline)
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundColor(.gray)
+                }
             }
+        } else {
+            Color.black
+                .ignoresSafeArea()
         }
     }
 }

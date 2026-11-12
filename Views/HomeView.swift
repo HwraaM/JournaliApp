@@ -1,16 +1,17 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Binding var showAddSheet: Bool
-    @Binding var searchText: String
+    // ربط كلاس الـ ViewModel لإدارة الحالة والبيانات مباشرة
+    @ObservedObject var viewModel: JournalViewModel
 
     var body: some View {
         ZStack {
+            // خلفية الشاشة السوداء الأساسية
             Color.black
                 .ignoresSafeArea()
             
-            VStack {
-                // الهيدر العلوي والكبسولة
+            VStack(spacing: 0) {
+                // ترويسة الصفحة العلوية
                 HStack {
                     Text("Journal")
                         .font(.system(size: 34, weight: .bold))
@@ -18,42 +19,49 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    TopBarButtons(
-                        onFilterTap: { print("فلترة") },
-                        onAddTap: { showAddSheet = true }
-                    )
+                    // زر الإضافة في الحالة الفارغة
+                    Button(action: {
+                        viewModel.showAddSheet = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 10)
+                    .background(Color(red: 0.14, green: 0.14, blue: 0.15))
+                    .clipShape(Capsule())
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                 
                 Spacer()
                 
-                // الحالة الفارغة (Empty State)
+                // عناصر الحالة الفارغة (أيقونة الدفتر والنصوص التوجيهية)
                 VStack(spacing: 16) {
-                    Image("notebook")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 130, height: 130)
-                    
-                    Text("Begin Your Journal")
-                        .font(.system(size: 22, weight: .semibold))
+                    Image(systemName: "book.closed.fill")
+                        .font(.system(size: 70))
                         .foregroundColor(Color(red: 0.7, green: 0.6, blue: 0.9))
                     
-                    Text("Craft your personal diary, tap the plus icon to begin")
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(.gray)
+                    Text("Begin Your Journal")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(Color(red: 0.7, green: 0.6, blue: 0.9))
+                    
+                    Text("Craft your personal diary, tap the\nplus icon to begin")
+                        .font(.system(size: 16))
+                        .foregroundColor(.white.opacity(0.85))
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .lineSpacing(4)
                 }
                 
                 Spacer()
                 
-                // شريط البحث السفلي
+                // شريط البحث السفلي الثابت
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                     
-                    TextField("Search", text: $searchText)
+                    TextField("Search", text: $viewModel.searchText)
                         .foregroundColor(.white)
                     
                     Image(systemName: "mic.fill")
@@ -63,8 +71,9 @@ struct HomeView: View {
                 .background(Color(red: 0.14, green: 0.14, blue: 0.15))
                 .clipShape(Capsule())
                 .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                .padding(.bottom, 15)
             }
         }
     }
+    
 }

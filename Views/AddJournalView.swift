@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct AddJournalView: View {
+    // دالة لإغلاق النافذة (Environment Dismiss)
     @Environment(\.dismiss) var dismiss
+    
     @State private var title: String = ""
     @State private var content: String = ""
     @State private var journalDate: Date = Date()
     
+    // إغلاق دالة عند الحفظ لإرسال العنصر الجديد للـ ViewModel
     var onSave: (JournalItem) -> Void
 
     var body: some View {
@@ -14,15 +17,18 @@ struct AddJournalView: View {
                 Color.black.ignoresSafeArea()
                 
                 VStack(alignment: .leading, spacing: 20) {
+                    // حقل إدخال العنوان
                     TextField("Journal Title", text: $title)
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.top, 10)
                     
+                    // عرض التاريخ الحالي
                     Text(journalDate.formatted(date: .numeric, time: .omitted))
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                     
+                    // حقل كتابة المحتوى
                     TextEditor(text: $content)
                         .font(.system(size: 16))
                         .scrollContentBackground(.hidden)
@@ -36,10 +42,12 @@ struct AddJournalView: View {
             .navigationTitle("New Journal")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // زر الإلغاء
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                         .foregroundColor(.gray)
                 }
+                // زر الحفظ بـ علامة الصح
                 ToolbarItem(placement: .confirmationAction) {
                     Button(action: {
                         let formatter = DateFormatter()

@@ -1,11 +1,3 @@
-//
-//  TopBarButtons.swift
-//  MyApp
-//
-//  Created by HAWRA12 on 01/06/1448 AH.
-//
-
-import Foundation
 import SwiftUI
 
 struct TopBarButtons: View {
@@ -15,7 +7,7 @@ struct TopBarButtons: View {
     var body: some View {
         HStack(spacing: 20) {
             Button(action: onFilterTap) {
-                Image(systemName: "line.3.horizontal")
+                Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(.white)
             }

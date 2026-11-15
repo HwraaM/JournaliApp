@@ -42,6 +42,8 @@ struct MainContainerView: View {
     }
 }
 
-#Preview {
-    MainContainerView()
+struct MainContainerView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainContainerView()
+    }
 }

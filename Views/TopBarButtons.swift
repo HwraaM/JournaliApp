@@ -11,7 +11,7 @@ struct TopBarButtons: View {
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(.white)
             }
-            
+             
             Button(action: onAddTap) {
                 Image(systemName: "plus")
                     .font(.system(size: 20, weight: .medium))
@@ -22,5 +22,15 @@ struct TopBarButtons: View {
         .padding(.vertical, 10)
         .background(Color(red: 0.14, green: 0.14, blue: 0.15))
         .clipShape(Capsule())
+    }
+}
+
+
+struct TopBarButtons_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            TopBarButtons(onFilterTap: {}, onAddTap: {})
+        }
     }
 }

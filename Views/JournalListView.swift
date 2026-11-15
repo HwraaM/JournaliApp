@@ -43,7 +43,7 @@ struct JournalListView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                  
-                // قائمة العرض
+                // قائمة العرض مع تفعيل ميزة إغلاق لوحة المفاتيح عند سحب القائمة
                 List {
                     ForEach(viewModel.filteredAndSortedJournals) { journal in
                         VStack(alignment: .leading, spacing: 10) {
@@ -51,9 +51,9 @@ struct JournalListView: View {
                                 Text(journal.title)
                                     .font(.system(size: 22, weight: .semibold))
                                     .foregroundColor(Color(red: 0.7, green: 0.6, blue: 0.9))
-                               
+                                 
                                 Spacer()
-                               
+                                 
                                 Button(action: {
                                     viewModel.toggleBookmark(for: journal)
                                 }) {
@@ -63,7 +63,7 @@ struct JournalListView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                            
+                           
                             Text(journal.date)
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
@@ -90,12 +90,13 @@ struct JournalListView: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
+                .scrollDismissesKeyboard(.interactively) // <-- التعديل المضاف لإغلاق الكيبورد تلقائياً عند السحب
                 .safeAreaInset(edge: .bottom) {
                     Color.clear.frame(height: 80)
                 }
             }
              
-            // شريط البحث السفلي مع زر المايكروفون المعالج
+            // شريط البحث السفلي مع زر المايكروفون المعالج وتحديث حالته برمجياً
             VStack {
                 Spacer()
                 HStack {
@@ -108,8 +109,8 @@ struct JournalListView: View {
                     Button(action: {
                         viewModel.toggleVoiceSearch()
                     }) {
-                        Image(systemName: "mic.fill")
-                            .foregroundColor(.gray)
+                        Image(systemName: viewModel.isRecording ? "mic.fill" : "mic")
+                            .foregroundColor(viewModel.isRecording ? .red : .gray)
                     }
                 }
                 .padding()
@@ -132,5 +133,11 @@ struct JournalListView: View {
         } message: {
             Text("Are you sure you want to delete this journal?")
         }
+    }
+}
+
+struct JournalListView_Previews: PreviewProvider {
+    static var previews: some View {
+        JournalListView(viewModel: JournalViewModel())
     }
 }

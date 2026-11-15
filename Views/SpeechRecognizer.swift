@@ -1,3 +1,10 @@
+//
+//  SpeechRecognizer.swift
+//  MyApp
+//
+//  Created by HAWRA12 on 02/06/1448 AH.
+//
+
 import SwiftUI
 import Combine
 import Speech

@@ -56,7 +56,7 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                // شريط البحث السفلي الثابت
+                // شريط البحث السفلي الثابت (مع تفعيل زر المايكروفون)
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
@@ -64,8 +64,13 @@ struct HomeView: View {
                     TextField("Search", text: $viewModel.searchText)
                         .foregroundColor(.white)
                     
-                    Image(systemName: "mic.fill")
-                        .foregroundColor(.gray)
+                    // زر المايكروفون التفاعلي المتصل بالـ ViewModel
+                    Button(action: {
+                        viewModel.toggleVoiceSearch()
+                    }) {
+                        Image(systemName: viewModel.isRecording ? "mic.fill" : "mic")
+                            .foregroundColor(viewModel.isRecording ? .red : .gray)
+                    }
                 }
                 .padding()
                 .background(Color(red: 0.14, green: 0.14, blue: 0.15))
@@ -75,5 +80,11 @@ struct HomeView: View {
             }
         }
     }
-    
+}
+
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView(viewModel: JournalViewModel())
+    }
 }

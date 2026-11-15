@@ -7,10 +7,10 @@
 
 import SwiftUI
 import Combine
+import Speech
+import AVFoundation
 
-// كلاس إدارة بيانات اليوميات والعمليات عليها وفق نمط MVVM
 class JournalViewModel: ObservableObject {
-    // مصفوفة اليوميات التي يتم مراقبة تحديثاتها تلقائياً من قبل الواجهة
     @Published var journals: [JournalItem] = [
         JournalItem(
             title: "My Birthday",
@@ -35,49 +35,145 @@ class JournalViewModel: ObservableObject {
         )
     ]
     
-    // نص البحث الحالي
     @Published var searchText: String = ""
-    // حالة إظهار شاشة الإضافة
     @Published var showAddSheet: Bool = false
-    // خيار الفلترة والترتيب الحالي
     @Published var selectedSort: SortOption = .all
     
-    // متغير اختياري (Optional) لتخزين اليومية المراد حذفها وعرض تنبيه التأكيد لها بأمان
     @Published var journalToDelete: JournalItem? = nil
     @Published var showDeleteAlert: Bool = false
 
-    // دالة لإضافة يومية جديدة في قمة القائمة
+    // ==========================================
+    // خصائص ودوال التسجيل الصوتي
+    // ==========================================
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ar-SA"))
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private let audioEngine = AVAudioEngine()
+    
+    @Published var isRecording: Bool = false
+
+    func toggleVoiceSearch() {
+        if isRecording {
+            stopRecording()
+        } else {
+            startRecording()
+        }
+    }
+
+    private func startRecording() {
+        SFSpeechRecognizer.requestAuthorization { authStatus in
+            DispatchQueue.main.async {
+                guard authStatus == .authorized else {
+                    print("لم يتم منح إذن التعرف الصوتي")
+                    return
+                }
+
+                AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                    DispatchQueue.main.async {
+                        guard granted else {
+                            print("لم يتم منح إذن المايكروفون")
+                            return
+                        }
+                        
+                        if let recognitionTask = self.recognitionTask {
+                            recognitionTask.cancel()
+                            self.recognitionTask = nil
+                        }
+
+                        let audioSession = AVAudioSession.sharedInstance()
+                        do {
+                            try audioSession.setCategory(.record, mode: .measurement, options: [.duckOthers])
+                            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+                        } catch {
+                            print("AudioSession error: \(error)")
+                            return
+                        }
+
+                        self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+                        let inputNode = self.audioEngine.inputNode
+                        
+                        let recordingFormat = inputNode.outputFormat(forBus: 0)
+                        guard recordingFormat.sampleRate > 0 && recordingFormat.channelCount > 0 else {
+                            print("لا يوجد مدخل صوت صالح حالياً")
+                            return
+                        }
+
+                        guard let recognitionRequest = self.recognitionRequest else { return }
+                        recognitionRequest.shouldReportPartialResults = true
+
+                        self.recognitionTask = self.speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
+                            var isFinal = false
+                            if let result = result {
+                                let spokenText = result.bestTranscription.formattedString
+                                DispatchQueue.main.async {
+                                    self.searchText = spokenText
+                                }
+                                isFinal = result.isFinal
+                            }
+
+                            if error != nil || isFinal {
+                                self.audioEngine.stop()
+                                inputNode.removeTap(onBus: 0)
+                                self.recognitionRequest = nil
+                                self.recognitionTask = nil
+                                self.isRecording = false
+                            }
+                        }
+
+                        inputNode.removeTap(onBus: 0)
+                        inputNode.installTap(onBus: 0, bufferSize: 1024, format: nil) { buffer, _ in
+                            recognitionRequest.append(buffer)
+                        }
+
+                        self.audioEngine.prepare()
+                        do {
+                            try self.audioEngine.start()
+                            self.isRecording = true
+                        } catch {
+                            print("AudioEngine start error: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func stopRecording() {
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        isRecording = false
+    }
+
+    // ==========================================
+    // الدوال الأساسية للـ ViewModel
+    // ==========================================
     func addJournal(_ item: JournalItem) {
         journals.insert(item, at: 0)
     }
 
-    // دالة آمنة لحذف يومية محددة
     func deleteJournal(_ item: JournalItem) {
         if let index = journals.firstIndex(where: { $0.id == item.id }) {
             journals.remove(at: index)
         }
     }
 
-    // دالة تبديل حالة الحفظ (Bookmark) باستخدام Optional للتحقق من الفهارس
     func toggleBookmark(for item: JournalItem) {
         if let index = journals.firstIndex(where: { $0.id == item.id }) {
             journals[index].isBookmarked.toggle()
         }
     }
 
-    // مصفوفة محسوبة (Computed Property) لتصفية وترتيب اليوميات حسب البحث والفلتر
     var filteredAndSortedJournals: [JournalItem] {
         var list = journals
-        
-        // تصفية النتائج بناءً على نص البحث (إذا لم يكن فارغاً)
+         
         if !searchText.isEmpty {
             list = list.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
                 $0.content.localizedCaseInsensitiveContains(searchText)
             }
         }
-        
-        // تطبيق خيارات الفلترة المحددة
+         
         switch selectedSort {
         case .bookmarked:
             return list.filter { $0.isBookmarked }
@@ -89,7 +185,6 @@ class JournalViewModel: ObservableObject {
     }
 }
 
-// خيارات الفلترة والترتيب
 enum SortOption {
     case all
     case bookmarked

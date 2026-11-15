@@ -1,26 +1,24 @@
 import SwiftUI
+import Speech
 
 struct JournalListView: View {
-    // ربط كلاس الـ ViewModel للحصول على البيانات وتحديثها
     @ObservedObject var viewModel: JournalViewModel
 
     var body: some View {
         ZStack {
-            // خلفية سوداء للشاشة
             Color.black
                 .ignoresSafeArea()
-            
+             
             VStack(spacing: 0) {
-                // ترويسة التطبيق (العنوان، قائمة الفلتر، وزر الإضافة)
+                // ترويسة التطبيق
                 HStack {
                     Text("Journal")
                         .font(.system(size: 34, weight: .bold))
                         .foregroundColor(.white)
-                    
+                     
                     Spacer()
-                    
+                     
                     HStack(spacing: 16) {
-                        // قائمة منسدلة للفلترة بأيقونة أبل القياسية المتدرجة
                         Menu {
                             Button("Show All") { viewModel.selectedSort = .all }
                             Button("Bookmarked Only") { viewModel.selectedSort = .bookmarked }
@@ -30,8 +28,7 @@ struct JournalListView: View {
                                 .font(.system(size: 18, weight: .medium))
                                 .foregroundColor(.white)
                         }
-                        
-                        // زر إضافة يومية جديدة
+                         
                         Button(action: { viewModel.showAddSheet = true }) {
                             Image(systemName: "plus")
                                 .font(.system(size: 20, weight: .medium))
@@ -45,20 +42,18 @@ struct JournalListView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
-                
-                // قائمة عرض البطاقات المصفاة
+                 
+                // قائمة العرض
                 List {
                     ForEach(viewModel.filteredAndSortedJournals) { journal in
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
-                                // عنوان اليومية
                                 Text(journal.title)
                                     .font(.system(size: 22, weight: .semibold))
                                     .foregroundColor(Color(red: 0.7, green: 0.6, blue: 0.9))
-                                
+                               
                                 Spacer()
-                                
-                                // زر حفظ البطاقة (Bookmark)
+                               
                                 Button(action: {
                                     viewModel.toggleBookmark(for: journal)
                                 }) {
@@ -69,12 +64,10 @@ struct JournalListView: View {
                                 .buttonStyle(.plain)
                             }
                             
-                            // تاريخ اليومية
                             Text(journal.date)
                                 .font(.system(size: 14))
                                 .foregroundColor(.gray)
-                            
-                            // محتوى اليومية
+                           
                             Text(journal.content)
                                 .font(.system(size: 15))
                                 .foregroundColor(.white.opacity(0.9))
@@ -85,7 +78,6 @@ struct JournalListView: View {
                         .cornerRadius(22)
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
-                        // خاصية السحب للحذف وإظهار أيقونة سلة المهملات
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
                                 viewModel.journalToDelete = journal
@@ -102,19 +94,23 @@ struct JournalListView: View {
                     Color.clear.frame(height: 80)
                 }
             }
-            
-            // شريط البحث السفلي الثابت
+             
+            // شريط البحث السفلي مع زر المايكروفون المعالج
             VStack {
                 Spacer()
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
-                    
+                     
                     TextField("Search", text: $viewModel.searchText)
                         .foregroundColor(.white)
-                    
-                    Image(systemName: "mic.fill")
-                        .foregroundColor(.gray)
+                     
+                    Button(action: {
+                        viewModel.toggleVoiceSearch()
+                    }) {
+                        Image(systemName: "mic.fill")
+                            .foregroundColor(.gray)
+                    }
                 }
                 .padding()
                 .background(Color(red: 0.14, green: 0.14, blue: 0.15))
@@ -123,7 +119,6 @@ struct JournalListView: View {
                 .padding(.bottom, 15)
             }
         }
-        // نافذة التنبيه (Alert) لتأكيد الحذف باستخدام Optional بأمان
         .alert("Delete Journal?", isPresented: $viewModel.showDeleteAlert) {
             Button("Cancel", role: .cancel) {
                 viewModel.journalToDelete = nil
@@ -139,4 +134,3 @@ struct JournalListView: View {
         }
     }
 }
-

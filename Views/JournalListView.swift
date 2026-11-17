@@ -1,5 +1,4 @@
 import SwiftUI
-import Speech
 
 struct JournalListView: View {
     @ObservedObject var viewModel: JournalViewModel
@@ -10,7 +9,7 @@ struct JournalListView: View {
                 .ignoresSafeArea()
              
             VStack(spacing: 0) {
-                // ترويسة التطبيق
+                // ترويسة التطبيق (مع تطبيق Liquid Glass)
                 HStack {
                     Text("Journal")
                         .font(.system(size: 34, weight: .bold))
@@ -20,9 +19,8 @@ struct JournalListView: View {
                      
                     HStack(spacing: 16) {
                         Menu {
-                            Button("Show All") { viewModel.selectedSort = .all }
-                            Button("Bookmarked Only") { viewModel.selectedSort = .bookmarked }
-                            Button("Sort by Date") { viewModel.selectedSort = .date }
+                            Button("Sort by Entry Date") { viewModel.selectedSort = .entryDate }
+                            Button("Sort by Bookmark") { viewModel.selectedSort = .bookmark }
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease")
                                 .font(.system(size: 18, weight: .medium))
@@ -37,20 +35,20 @@ struct JournalListView: View {
                     }
                     .padding(.horizontal, 18)
                     .padding(.vertical, 10)
-                    .background(Color(red: 0.14, green: 0.14, blue: 0.15))
+                    .background(.ultraThinMaterial) // تطبيق Liquid Glass
                     .clipShape(Capsule())
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                  
-                // قائمة العرض مع تفعيل ميزة إغلاق لوحة المفاتيح عند سحب القائمة
+                // قائمة العرض
                 List {
                     ForEach(viewModel.filteredAndSortedJournals) { journal in
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 Text(journal.title)
                                     .font(.system(size: 22, weight: .semibold))
-                                    .foregroundColor(Color(red: 0.7, green: 0.6, blue: 0.9))
+                                    .foregroundColor(journal.isBookmarked ? Color(red: 0.85, green: 0.75, blue: 1.0) : Color(red: 0.7, green: 0.6, blue: 0.9))
                                  
                                 Spacer()
                                  
@@ -72,6 +70,7 @@ struct JournalListView: View {
                                 .font(.system(size: 15))
                                 .foregroundColor(.white.opacity(0.9))
                                 .lineLimit(4)
+                                .multilineTextAlignment(.leading)
                         }
                         .padding(20)
                         .background(Color(red: 0.12, green: 0.12, blue: 0.14))
@@ -83,20 +82,20 @@ struct JournalListView: View {
                                 viewModel.journalToDelete = journal
                                 viewModel.showDeleteAlert = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Image(systemName: "trash")
                             }
                         }
                     }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-                .scrollDismissesKeyboard(.interactively) // <-- التعديل المضاف لإغلاق الكيبورد تلقائياً عند السحب
+                .scrollDismissesKeyboard(.interactively)
                 .safeAreaInset(edge: .bottom) {
                     Color.clear.frame(height: 80)
                 }
             }
              
-            // شريط البحث السفلي مع زر المايكروفون المعالج وتحديث حالته برمجياً
+            // شريط البحث السفلي (مع Liquid Glass وأيقونة المايك الشكل الثابت)
             VStack {
                 Spacer()
                 HStack {
@@ -105,16 +104,14 @@ struct JournalListView: View {
                      
                     TextField("Search", text: $viewModel.searchText)
                         .foregroundColor(.white)
-                     
-                    Button(action: {
-                        viewModel.toggleVoiceSearch()
-                    }) {
-                        Image(systemName: viewModel.isRecording ? "mic.fill" : "mic")
-                            .foregroundColor(viewModel.isRecording ? .red : .gray)
+                    
+                    Button(action: {}) {
+                        Image(systemName: "mic.fill")
+                            .foregroundColor(.gray.opacity(0.6))
                     }
                 }
                 .padding()
-                .background(Color(red: 0.14, green: 0.14, blue: 0.15))
+                .background(.ultraThinMaterial)
                 .clipShape(Capsule())
                 .padding(.horizontal, 20)
                 .padding(.bottom, 15)

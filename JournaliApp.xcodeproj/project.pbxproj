@@ -15,11 +15,10 @@
 		E6BC0C5930A511A30090885A /* JournalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BC0C5830A511A30090885A /* JournalItem.swift */; };
 		E6BC0C5B30A522B70090885A /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BC0C5A30A522B70090885A /* MainContainerView.swift */; };
 		E6BC0C5D30A5D1ED0090885A /* JournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BC0C5C30A5D1ED0090885A /* JournalViewModel.swift */; };
-		E6BC0C5F30A962C50090885A /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BC0C5E30A962C50090885A /* SpeechRecognizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		000000000000000000000120 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000120 /* JournaliApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JournaliApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6BC0C4C30A34CB40090885A /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		E6BC0C4E30A3558B0090885A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		E6BC0C5230A4EE1C0090885A /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
@@ -28,13 +27,12 @@
 		E6BC0C5830A511A30090885A /* JournalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalItem.swift; sourceTree = "<group>"; };
 		E6BC0C5A30A522B70090885A /* MainContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
 		E6BC0C5C30A5D1ED0090885A /* JournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViewModel.swift; sourceTree = "<group>"; };
-		E6BC0C5E30A962C50090885A /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		000000000000000000000010 /* MyApp */ = {
+		000000000000000000000010 /* JournaliApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MyApp;
+			path = JournaliApp;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,7 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				E6BC0C4B30A34C0A0090885A /* Views */,
-				000000000000000000000010 /* MyApp */,
+				000000000000000000000010 /* JournaliApp */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,7 +58,7 @@
 		000000000000000000000020 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				000000000000000000000120 /* MyApp.app */,
+				000000000000000000000120 /* JournaliApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,13 +68,12 @@
 			children = (
 				E6BC0C4C30A34CB40090885A /* SplashView.swift */,
 				E6BC0C4E30A3558B0090885A /* HomeView.swift */,
-				E6BC0C5230A4EE1C0090885A /* JournalListView.swift */,
 				E6BC0C5630A506960090885A /* AddJournalView.swift */,
 				E6BC0C5430A506230090885A /* TopBarButtons.swift */,
 				E6BC0C5830A511A30090885A /* JournalItem.swift */,
 				E6BC0C5A30A522B70090885A /* MainContainerView.swift */,
 				E6BC0C5C30A5D1ED0090885A /* JournalViewModel.swift */,
-				E6BC0C5E30A962C50090885A /* SpeechRecognizer.swift */,
+				E6BC0C5230A4EE1C0090885A /* JournalListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -84,9 +81,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		000000000000000100000000 /* MyApp */ = {
+		000000000000000100000000 /* JournaliApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "MyApp" */;
+			buildConfigurationList = 000000000000000110000000 /* Build configuration list for PBXNativeTarget "JournaliApp" */;
 			buildPhases = (
 				000000000000000120000000 /* Sources */,
 				000000000000000130000000 /* Frameworks */,
@@ -95,11 +92,11 @@
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
-				000000000000000000000010 /* MyApp */,
+				000000000000000000000010 /* JournaliApp */,
 			);
-			name = MyApp;
+			name = JournaliApp;
 			productName = MyApp;
-			productReference = 000000000000000000000120 /* MyApp.app */;
+			productReference = 000000000000000000000120 /* JournaliApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -131,7 +128,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				000000000000000100000000 /* MyApp */,
+				000000000000000100000000 /* JournaliApp */,
 			);
 		};
 /* End PBXProject section */
@@ -153,7 +150,6 @@
 				E6BC0C5930A511A30090885A /* JournalItem.swift in Sources */,
 				E6BC0C5530A506230090885A /* TopBarButtons.swift in Sources */,
 				E6BC0C4F30A3558B0090885A /* HomeView.swift in Sources */,
-				E6BC0C5F30A962C50090885A /* SpeechRecognizer.swift in Sources */,
 				E6BC0C5B30A522B70090885A /* MainContainerView.swift in Sources */,
 				E6BC0C4D30A34CB40090885A /* SplashView.swift in Sources */,
 				E6BC0C5730A506960090885A /* AddJournalView.swift in Sources */,
@@ -294,12 +290,14 @@
 			};
 			name = Release;
 		};
-		000000000000000111000000 /* Debug configuration for PBXNativeTarget "MyApp" */ = {
+		000000000000000111000000 /* Debug configuration for PBXNativeTarget "JournaliApp" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = journali;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4U95387XFM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
@@ -330,7 +328,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "devplaceholder.$(PROJECT_UNIQUE_VALUE:identifier).$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawraalmuayrifipersonalteam.JournaliApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -345,12 +343,14 @@
 			};
 			name = Debug;
 		};
-		000000000000000112000000 /* Release configuration for PBXNativeTarget "MyApp" */ = {
+		000000000000000112000000 /* Release configuration for PBXNativeTarget "JournaliApp" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = journali;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4U95387XFM;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
@@ -381,7 +381,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "devplaceholder.$(PROJECT_UNIQUE_VALUE:identifier).$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawraalmuayrifipersonalteam.JournaliApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -407,11 +407,11 @@
 			);
 			defaultConfigurationName = Release;
 		};
-		000000000000000110000000 /* Build configuration list for PBXNativeTarget "MyApp" */ = {
+		000000000000000110000000 /* Build configuration list for PBXNativeTarget "JournaliApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				000000000000000111000000 /* Debug configuration for PBXNativeTarget "MyApp" */,
-				000000000000000112000000 /* Release configuration for PBXNativeTarget "MyApp" */,
+				000000000000000111000000 /* Debug configuration for PBXNativeTarget "JournaliApp" */,
+				000000000000000112000000 /* Release configuration for PBXNativeTarget "JournaliApp" */,
 			);
 			defaultConfigurationName = Release;
 		};

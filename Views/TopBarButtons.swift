@@ -9,18 +9,18 @@ struct TopBarButtons: View {
             Button(action: onFilterTap) {
                 Image(systemName: "line.3.horizontal.decrease")
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
              
             Button(action: onAddTap) {
                 Image(systemName: "plus")
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
         }
         .padding(.horizontal, 18)
         .padding(.vertical, 10)
-        .background(Color(red: 0.14, green: 0.14, blue: 0.15))
+        .background(.ultraThinMaterial) // تطبيق Liquid Glass الأصلي
         .clipShape(Capsule())
     }
 }
@@ -29,7 +29,6 @@ struct TopBarButtons: View {
 struct TopBarButtons_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
             TopBarButtons(onFilterTap: {}, onAddTap: {})
         }
     }
